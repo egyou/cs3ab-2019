@@ -44,7 +44,7 @@
                             -->
                             </div>								
                             <div class="blog_details">
-                            	<a class="d-inline-block" th:href="@{'/questions/{id}'(id=${question.id})}"></span>
+                            	<a class="d-inline-block" th:href="@{'/questions/{id}'(id=${question.id})}">
                             	  	<h2><span th:text="${question.title}"></span></h2>
                                 </a>
                                 <ul class="blog-info-link">
@@ -54,7 +54,7 @@
                                 </ul>
                             </div>
                         </article>
-
+						
                         <nav class="blog-pagination justify-content-center d-flex">
                             <ul class="pagination">
                                 <li class="page-item">
