@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import iducs.springboot.board.domain.User;
 import iducs.springboot.board.service.UserService;
+import iducs.springboot.board.util.HttpSessionUtils;
 
 @Controller
 public class HomeController {
@@ -30,6 +31,8 @@ public class HomeController {
 	@GetMapping("/questions/form") // 등록폼은 form URL을 가지도록 규칙화하겠음
 	public String questionForm(HttpSession session, Model model) {
 		User writer = (User) session.getAttribute("user");
+		if(HttpSessionUtils.isLogined(writer))
+			return "redirect:/users/login-form";
 		model.addAttribute("writer", writer);
 		return "/questions/register";
 	}
@@ -38,6 +41,12 @@ public class HomeController {
 	public String loginForm(Model model) {
 		return "/users/login";
 	}
+	
+	@GetMapping("/users/register-success")
+	public String registerSuccess(Model model) {
+		return "/users/register-success";
+	}
+	
 	@PostMapping("/users/login")
 	public String loginUser(@Valid User user, HttpSession session) {
 		System.out.println("login process : ");
@@ -51,7 +60,7 @@ public class HomeController {
 			return "redirect:/users/login-form";
 		}
 		session.setAttribute("user", sessionUser);
-		return "redirect:/";
+		return "/users/login-success";
 	}	
 	
 	@GetMapping("/users/form") // 등록폼은 form URL을 가지도록 함, 다른 폼은 이름을 명명하기로 수정함
@@ -64,6 +73,7 @@ public class HomeController {
 		session.invalidate();
 		return "redirect:/";
 	}
+	
 	/*
 	@GetMapping("/userinfo")
 	public String datail(HttpSession session) {

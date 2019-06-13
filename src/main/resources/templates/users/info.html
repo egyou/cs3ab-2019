@@ -51,8 +51,12 @@
 							<div class="form-group mt-3">
 				              <button type="submit" class="button button-contactForm btn_4">
 				              	회원정보수정</button>
+				              	</form>
+				              	<form th:action="@{'/users/{id}'(id=${user.id})}" th:method="delete" th:object="${user}">
+				              	<input type="hidden" name="aa" value="DELETE">
+				              	 <button class="button button-contactForm btn_4" type="submit">삭제</button>
+				              	 </form>
 				            </div>
-						</form>
 					</div>
 					<div class="col-lg-2 col-md-2 mt-sm-30">
 					</div>
