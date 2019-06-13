@@ -20,6 +20,7 @@ import iducs.springboot.board.domain.User;
 import iducs.springboot.board.exception.ResourceNotFoundException;
 import iducs.springboot.board.repository.UserRepository;
 import iducs.springboot.board.service.UserService;
+import iducs.springboot.board.util.HttpSessionUtils;
 
 @Controller
 @RequestMapping("/users")
@@ -36,12 +37,17 @@ public class UserController {
 	}	
 	@GetMapping("")
 	public String getAllUser(Model model, HttpSession session) {
+		User sessionUser = (User) session.getAttribute("user");
+		if(HttpSessionUtils.isLogined(sessionUser)) 
+			return "redirect:/users/login-form";
 		model.addAttribute("users", userService.getUsers());
 		return "/users/list";
 	}	
 	@GetMapping("/{id}")
 	public String getUserById(@PathVariable(value = "id") Long id, Model model) {
 		User user = userService.getUserById(id);
+		if(HttpSessionUtils.isLogined(user)) 
+			return "redirect:/users/login-form";
 		model.addAttribute("user", user);
 		return "/users/info";
 	}
