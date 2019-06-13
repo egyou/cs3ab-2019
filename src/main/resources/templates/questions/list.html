@@ -27,12 +27,12 @@
 
 
     <!--================Blog Area =================-->
-    <section class="blog_area section_padding">
+    <section class="blog_area section_padding">       
+		<!-- 글쓰기 버튼 넣기. -->
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 mb-5 mb-lg-0">
-                    <div class="blog_left_sidebar">
-                    	
+                    <div class="blog_left_sidebar">                    	
                         <article class="blog_item" th:each="question : ${questions}">
                             <div class="blog_item_img">    
                             <!--                           
@@ -54,7 +54,6 @@
                                 </ul>
                             </div>
                         </article>
-
                         <nav class="blog-pagination justify-content-center d-flex">
                             <ul class="pagination">
                                 <li class="page-item">
