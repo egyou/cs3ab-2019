@@ -32,7 +32,8 @@ public class HomeController {
 		User writer = (User) session.getAttribute("user");
 		model.addAttribute("writer", writer);
 		return "/questions/register";
-	}	
+	}
+	
 	@GetMapping("/users/login-form")
 	public String loginForm(Model model) {
 		return "/users/login";
@@ -57,6 +58,7 @@ public class HomeController {
 	public String registerForm() {
 		return "/users/register";
 	}
+	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();

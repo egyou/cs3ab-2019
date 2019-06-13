@@ -60,6 +60,8 @@ public class QuerstionController {
 		model.addAttribute("question", question);
 		return "/questions/info";
 	}
+	
+	
 	@PutMapping("/{id}")
 	public String updateQuestionById(@PathVariable(value = "id") Long id, String title, String contents, Model model) {
 		Question question = questionService.getQuestionById(id);

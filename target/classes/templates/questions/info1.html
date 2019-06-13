@@ -40,19 +40,17 @@
                         <li><a href="#"><i class="far fa-clock"></i> <span th:text="${#temporals.format(question.createTime, 'yyyy년 MM월 dd일 HH:mm')}"></span></a></li>
                         <li><a href="#comment-area"><i class="far fa-comments"></i> 03 Comments</a></li>
                      </ul>
+                     <form th:action="@{'/users/{id}'(id=${user.id})}" th:method="put" th:object="${user}">
                      <div class="quote-wrapper">
-                        <div class="quotes" th:text="${question.contents}">
+                        <input type="password" th:text="${question.contents}" required="" class="quotes">
                            
                         </div>
                      </div>
-                     
 							<div class="form-group mt-3">
-							<input type="hidden" name="_method" value="put">
-				              <button class="updatezz" type="submit">수정</button>
-				              <form class="form-delete" action="/questions/{{id}}" method="POST">
-				              	<input type="hidden" name="aa" value="DELETE">
-				              <button class="deletezz" type="submit">삭제</button>
-				              </form>
+				              <button type="submit" class="button button-contactForm btn_4">
+				              	정보수정</button>
+				              <button type="delete" class="button button-contactForm btn_4">
+				              	삭제</button>
 				            </div>
                   </div>
                </div>
