@@ -21,7 +21,7 @@ public class QuestionEntity {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id; // database에서 sequence number, primary key 역할
-	
+	 
 	private String title; 
 	
 	@ManyToOne

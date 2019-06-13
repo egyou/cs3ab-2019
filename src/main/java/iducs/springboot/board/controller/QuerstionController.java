@@ -48,24 +48,31 @@ public class QuerstionController {
 		return "redirect:/questions"; // get 방식으로  리다이렉션 - Controller를 통해 접근
 	}
 	
-	@GetMapping("/{id}")
-	public String getQuestionById(@PathVariable(value = "id") Long id, Model model) {
+	@GetMapping("/{id}") //id비교해서 글 수정 가능하도록
+	public String getQuestionById(@PathVariable(value = "id") Long id, Model model, HttpSession session) {
+		User sessionUser = (User)session.getAttribute("user");
 		Question question = questionService.getQuestionById(id);
+		User writer = question.getWriter();
+		if(sessionUser.equals(writer)) // domain -> User 하단
+			model.addAttribute("same", "같다");
 		model.addAttribute("question", question);
 		return "/questions/info";
 	}
+	
 	@GetMapping("/{id}/form")
 	public String getUpdateForm(@PathVariable(value = "id") Long id, Model model) {
 		Question question = questionService.getQuestionById(id);
 		model.addAttribute("question", question);
 		return "/questions/info";
 	}
+	
 	@PutMapping("/{id}")
 	public String updateQuestionById(@PathVariable(value = "id") Long id, String title, String contents, Model model) {
 		Question question = questionService.getQuestionById(id);
 		questionService.updateQuestion(question);		
 		return "redirect:/questions/" + id;
 	}
+	
 	@DeleteMapping("/{id}")
 	public String deleteQuestionById(@PathVariable(value = "id") Long id, Model model) {
 		Question question = questionService.getQuestionById(id);

@@ -20,6 +20,7 @@ import iducs.springboot.board.domain.User;
 import iducs.springboot.board.exception.ResourceNotFoundException;
 import iducs.springboot.board.repository.UserRepository;
 import iducs.springboot.board.service.UserService;
+import iducs.springboot.board.util.HttpSessionUtils;
 
 @Controller
 @RequestMapping("/users")
@@ -28,21 +29,28 @@ public class UserController {
 	// 의존성 주입(Dependency Injection)
 	// @Component, @Controller, @Repository, @Service 표시된 클래스형 빈 객체를 스프링이 스캔하여 등록하고, @Autowired 등 요청시 주입 	
 	
-	@PostMapping("")
+	@PostMapping("") //회원가입시 환영으로 하도록
 	public String createUser(@Valid User formUser, Model model) {
 		userService.saveUser(formUser); 
 		model.addAttribute("user", formUser);
-		return "redirect:/users";
+		return "redirect:/welcome";
 	}	
-	@GetMapping("")
+	
+	@GetMapping("") //로그인한 사용자일시 회원목록 나오도록
 	public String getAllUser(Model model, HttpSession session) {
+		User sessionUser = (User) session.getAttribute("user");
+		if(HttpSessionUtils.isLogined(sessionUser)) 
+			return "redirect:/users/login-form";
 		model.addAttribute("users", userService.getUsers());
 		return "/users/list";
 	}	
 	@GetMapping("/{id}")
-	public String getUserById(@PathVariable(value = "id") Long id, Model model) {
-		User user = userService.getUserById(id);
-		model.addAttribute("user", user);
+	public String getUserById(@PathVariable(value = "id") Long id, Model model, HttpSession session) {
+		User sessionUser = (User) session.getAttribute("user");
+		if(HttpSessionUtils.isLogined(sessionUser)) 
+			return "redirect:/users/login-form";
+		//User user = userService.getUserById(id);
+		model.addAttribute("user", sessionUser);
 		return "/users/info";
 	}
 	
