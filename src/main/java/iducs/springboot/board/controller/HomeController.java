@@ -40,6 +40,10 @@ public class HomeController {
 	public String loginForm(Model model) {
 		return "/users/login";
 	}
+	@GetMapping("/users/welcome")
+	public String welcome(Model model) {
+		return "/welcome";
+	}
 	@PostMapping("/users/login")
 	public String loginUser(@Valid User user, HttpSession session) {
 		System.out.println("login process : ");
