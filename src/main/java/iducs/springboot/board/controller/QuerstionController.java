@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import aj.org.objectweb.asm.Attribute;
 import iducs.springboot.board.domain.Question;
 import iducs.springboot.board.domain.User;
 import iducs.springboot.board.exception.ResourceNotFoundException;
@@ -49,8 +50,12 @@ public class QuerstionController {
 	}
 	
 	@GetMapping("/{id}")
-	public String getQuestionById(@PathVariable(value = "id") Long id, Model model) {
+	public String getQuestionById(@PathVariable(value = "id") Long id, Model model, HttpSession session) {
+		User sessionUser = (User)session.getAttribute("user");
 		Question question = questionService.getQuestionById(id);
+		User writer = question.getWriter();
+		if(sessionUser.equals(writer)) 
+			model.addAttribute("same", "같다");
 		model.addAttribute("question", question);
 		return "/questions/info";
 	}
