@@ -48,7 +48,7 @@ public class QuerstionController {
 		return "redirect:/questions"; // get 방식으로  리다이렉션 - Controller를 통해 접근
 	}
 	
-	@GetMapping("/{id}") //id비교해서 글 수정 가능하도록
+	@GetMapping("/{id}") //id비교해서 글 수정 가능하도록 수정 버튼 나오도록
 	public String getQuestionById(@PathVariable(value = "id") Long id, Model model, HttpSession session) {
 		User sessionUser = (User)session.getAttribute("user");
 		Question question = questionService.getQuestionById(id);
@@ -66,14 +66,14 @@ public class QuerstionController {
 		return "/questions/info";
 	}
 	
-	@PutMapping("/{id}")
+	@PutMapping("/{id}") //수정 추정 부분
 	public String updateQuestionById(@PathVariable(value = "id") Long id, String title, String contents, Model model) {
 		Question question = questionService.getQuestionById(id);
 		questionService.updateQuestion(question);		
 		return "redirect:/questions/" + id;
 	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/{id}") //삭제 추정 부분
 	public String deleteQuestionById(@PathVariable(value = "id") Long id, Model model) {
 		Question question = questionService.getQuestionById(id);
 		questionService.deleteQuestion(question);
