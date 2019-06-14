@@ -62,11 +62,16 @@ public class QuerstionController {
 	public String getUpdateForm(@PathVariable(value = "id") Long id, Model model) {
 		Question question = questionService.getQuestionById(id);
 		model.addAttribute("question", question);
-		return "/questions/info";
+		return "/questions/edit2";
 	}
 	@PutMapping("/{id}")
-	public String updateQuestionById(@PathVariable(value = "id") Long id, String title, String contents, Model model) {
+	public String updateQuestionById(@PathVariable(value = "id") Long id,@Valid Question formQuestion, String title, String contents, Model model) {
+		System.out.println("asdfasdf");
+		//Question question = questionService.getQuestionById(id);
 		Question question = questionService.getQuestionById(id);
+		question.setContents(formQuestion.getContents());
+		question.setTitle(formQuestion.getTitle());
+		
 		questionService.updateQuestion(question);		
 		return "redirect:/questions/" + id;
 	}
@@ -75,6 +80,6 @@ public class QuerstionController {
 		Question question = questionService.getQuestionById(id);
 		questionService.deleteQuestion(question);
 		model.addAttribute("userId", question.getWriter().getUserId());
-		return "/questions/withdrawal";
+		return "/questions";
 	}
 }

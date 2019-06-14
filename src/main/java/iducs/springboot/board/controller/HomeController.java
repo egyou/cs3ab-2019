@@ -42,7 +42,7 @@ public class HomeController {
 	}
 	@GetMapping("/users/welcome")
 	public String welcome(Model model) {
-		return "/welcome";
+		return "/indexwelcome";
 	}
 	@PostMapping("/users/login")
 	public String loginUser(@Valid User user, HttpSession session) {
