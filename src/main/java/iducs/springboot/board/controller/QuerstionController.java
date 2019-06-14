@@ -25,6 +25,7 @@ import iducs.springboot.board.exception.ResourceNotFoundException;
 import iducs.springboot.board.repository.UserRepository;
 import iducs.springboot.board.service.QuestionService;
 import iducs.springboot.board.service.UserService;
+import iducs.springboot.board.util.HttpSessionUtils;
 
 @Controller
 @RequestMapping("/questions")
@@ -32,7 +33,7 @@ public class QuerstionController {
 	@Autowired QuestionService questionService; // 의존성 주입(Dependency Injection) : 
 	
 	@GetMapping("")
-	public String getAllUser(Model model, HttpSession session) {
+	public String getAllQues(Model model, HttpSession session) {
 		List<Question> questions = questionService.getQuestions();
 		model.addAttribute("questions", questions);
 		return "/questions/list"; 
@@ -40,7 +41,7 @@ public class QuerstionController {
 	
 	@PostMapping("")
 	// public String createUser(Question question, Model model, HttpSession session) {
-	public String createUser(String title, String contents, Model model, HttpSession session) {
+	public String createQuestions(String title, String contents, Model model, HttpSession session) {
 		User sessionUser = (User) session.getAttribute("user");
 		Question newQuestion = new Question(title, sessionUser, contents);		
 		// Question newQuestion = new Question(question.getTitle(), writer, question.getContents());	
@@ -67,9 +68,14 @@ public class QuerstionController {
 		return "/questions/info";
 	}
 	@PutMapping("/{id}")
-	public String updateQuestionById(@PathVariable(value = "id") Long id, String title, String contents, Model model) {
+	public String updateQuestionById(@PathVariable(value = "id") Long id, @Valid Question formQuestion, String title, String contents, Model model) {
 		Question question = questionService.getQuestionById(id);
-		questionService.updateQuestion(question);		
+		question.setTitle(formQuestion.getTitle());
+		question.setContents(formQuestion.getContents());
+		
+		questionService.updateQuestion(question);
+		model.addAttribute("question", question);
+		
 		return "redirect:/questions/" + id;
 	}
 	@DeleteMapping("/{id}")
@@ -77,7 +83,18 @@ public class QuerstionController {
 		Question question = questionService.getQuestionById(id);
 		questionService.deleteQuestion(question);
 		model.addAttribute("userId", question.getWriter().getUserId());
-		return "/questions/withdrawal";
+		return "redirect:/questions";
 	}
 	
+	@GetMapping("/{id}/edit")
+	public String editQuestion(@PathVariable(value = "id") Long id, Model model, HttpSession session) {
+		User writer = (User) session.getAttribute("user");
+		if(HttpSessionUtils.isLogined(writer))
+				return "redirect:/users/login-form";
+		model.addAttribute("writer", writer);
+		Question question = questionService.getQuestionById(id);
+		model.addAttribute("question", question);
+		
+		return "/questions/edit";
+	}
 }

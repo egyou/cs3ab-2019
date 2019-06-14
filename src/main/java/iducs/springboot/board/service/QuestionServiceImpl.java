@@ -33,7 +33,8 @@ public class QuestionServiceImpl implements QuestionService {
 		 * 1. Repository로 부터 모든 자료를 가져와 Enitiy 리스트에 저장한다.
 		 * 2. 
 		 */
-		List<QuestionEntity> entities = repository.findAll(new Sort(Sort.Direction.DESC, "createTime"));
+		List<QuestionEntity> entities = repository.findAll(new Sort(Sort.Direction.DESC, "createTime")); // 제작시간으로 정렬
+		new Sort(Sort.Direction.ASC, "writer");
 		
 		List<Question> questions = new ArrayList<Question>();
 		for(QuestionEntity entity : entities) {

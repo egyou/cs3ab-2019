@@ -33,13 +33,13 @@ public class UserController {
 	public String createUser(@Valid User formUser, Model model) {
 		userService.saveUser(formUser); 
 		model.addAttribute("user", formUser);
-		return "redirect:/users";
+		return "/users/welcome";
 	}	
 	@GetMapping("")
 	public String getAllUser(Model model, HttpSession session) {
 		User sessionUser = (User) session.getAttribute("user");
 		if(HttpSessionUtils.isLogined(sessionUser))
-				return "redirect: /users/login-form";
+				return "redirect:/users/login-form";
 		model.addAttribute("users", userService.getUsers());
 		return "/users/list";
 		
@@ -48,7 +48,7 @@ public class UserController {
 	public String getUserById(@PathVariable(value = "id") Long id, Model model, HttpSession session) {
 		User sessionUser = (User) session.getAttribute("user");
 		if(HttpSessionUtils.isLogined(sessionUser))
-				return "redirect: /users/login-form";
+				return "redirect:/users/login-form";
 		User user = userService.getUserById(id);
 		model.addAttribute("user", user);
 		return "/users/info";
