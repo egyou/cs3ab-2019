@@ -34,21 +34,25 @@
                      <img class="img-fluid" src="/img/blog/single_blog_1.png" alt="">
                   </div>
                   <div class="blog_details">
-                     <h2>제목 : <span th:text="${question.title}"></span></h2>
-                     <ul class="blog-info-link mt-3 mb-4">
-                     	<li><a href="#"><i class="far fa-user"></i> <span th:text="${question.writer.userId}"></span></a></li>
+                  <form th:action="@{'/questions/{id}'(id=${question.id})}" th:method="put" th:object="${question}">
+                     <h2>제목 : <input type="text" th:field="${question.title}"></h2>
+                      <ul class="blog-info-link mt-3 mb-4">
+                        <li><a href="#"><i class="far fa-user"></i> <span th:text="${question.writer.userId}"></span></a></li>
                         <li><a href="#"><i class="far fa-clock"></i> <span th:text="${#temporals.format(question.createTime, 'yyyy년 MM월 dd일 HH:mm')}"></span></a></li>
                         <li><a href="#comment-area"><i class="far fa-comments"></i> 03 Comments</a></li>
+                        <li th:if="${same}"><a href="/questions/info1"><i class="far fa-comments"></i> 글 수정</a></li>
+                        <li th:if="${same}"><a href="/question/edit"><i class="far fa-comments"></i> 글 삭제</a></li>
                      </ul>
-                     <form th:action="@{'/questions/{id}'(id=${question.id})}" th:method="put" th:object="${user}">
+                     
+                     
                      <div class="quote-wrapper">
-                        <div class="quotes" th:text="${question.contents}">
-                           
-                        </div>
+                        <input type="text" class="single-input" th:field="${question.contents}">
+
                      </div>
                      
 							<div class="form-group mt-3">
-							<input type="hidden" name="_method" value="put">
+							
+							<input type="hidden" name="ㅇㅇ" value="put">
 				              <button class="updatezz" type="submit">수정</button>
 				              </form>
 				              	<form th:action="@{'/questions/{id}'(id=${question.id})}" th:method="delete" th:object="${user}">

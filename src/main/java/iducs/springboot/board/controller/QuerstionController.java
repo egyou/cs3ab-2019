@@ -25,6 +25,7 @@ import iducs.springboot.board.exception.ResourceNotFoundException;
 import iducs.springboot.board.repository.UserRepository;
 import iducs.springboot.board.service.QuestionService;
 import iducs.springboot.board.service.UserService;
+import iducs.springboot.board.util.HttpSessionUtils;
 
 @Controller
 @RequestMapping("/questions")
@@ -48,12 +49,7 @@ public class QuerstionController {
 		return "redirect:/questions"; // get 방식으로  리다이렉션 - Controller를 통해 접근
 	}
 	
-	@GetMapping("/{id}")
-	public String getQuestionById(@PathVariable(value = "id") Long id, Model model) {
-		Question question = questionService.getQuestionById(id);
-		model.addAttribute("question", question);
-		return "/questions/info";
-	}
+
 	@GetMapping("/{id}/form")
 	public String getUpdateForm(@PathVariable(value = "id") Long id, Model model) {
 		Question question = questionService.getQuestionById(id);
@@ -62,16 +58,45 @@ public class QuerstionController {
 	}
 	
 	
+	@GetMapping("/{id}")
+	public String getQuestionById(@PathVariable(value = "id") Long id, Model model, HttpSession session) {
+	      User sessionUser = (User) session.getAttribute("user");
+	      Question question = questionService.getQuestionById(id);
+	      User writer = question.getWriter();
+	      
+	      if(sessionUser.equals(writer))
+	         model.addAttribute("same","같다");
+	      model.addAttribute("question", question);
+	      return "/questions/info";
+	   }
+	
 	@PutMapping("/{id}")
-	public String updateQuestionById(@PathVariable(value = "id") Long id, String title, String contents, Model model) {
+	public String updateQuestionById(@Valid Question formQuestion, HttpSession session, @PathVariable(value = "id") Long id, String title, String contents, Model model) {
+		
+		User writer = (User) session.getAttribute("user");
+		if(HttpSessionUtils.isLogined(writer))
+			return "redirect:/users/login-form";
 		Question question = questionService.getQuestionById(id);
-		questionService.updateQuestion(question);		
+		if(question.getWriter().equals(writer)) {
+			question.setContents(formQuestion.getContents());
+			question.setTitle(formQuestion.getTitle());
+			questionService.updateQuestion(question);
+		}
+		else {
+			return "redirect:/questions/"+id;
+		}
 		return "redirect:/questions/" + id;
 	}
 	@DeleteMapping("/{id}")
-	public String deleteQuestionById(@PathVariable(value = "id") Long id, Model model) {
+	public String deleteQuestionById(HttpSession session, @PathVariable(value = "id") Long id, Model model) {
+		User writer = (User) session.getAttribute("user");
+		if(HttpSessionUtils.isLogined(writer))
+			return "redirect:/users/login-form";
 		Question question = questionService.getQuestionById(id);
-		questionService.deleteQuestion(question);
+		if(question.getWriter().equals(writer))
+			questionService.deleteQuestion(question);
+		else
+			return "redirect:/questions/"+id;
 		model.addAttribute("userId", question.getWriter().getUserId());
 		return "redirect:/questions";
 	}
