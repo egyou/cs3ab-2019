@@ -38,7 +38,7 @@ public class UserController {
 	@GetMapping("")
 	public String getAllUser(Model model, HttpSession session) {
 		User sessionUser = (User) session.getAttribute("user");
-		if(HttpSessionUtils.isLogined(sessionUser)) {
+		if(!HttpSessionUtils.isLogined(sessionUser)) {
 			return "redirect:/users/login-form";
 		}
 		model.addAttribute("users", userService.getUsers());
@@ -66,10 +66,11 @@ public class UserController {
 		return "/users/info";
 	}	
 	@DeleteMapping("/{id}")
-	public String deleteUserById(@PathVariable(value = "id") Long id, @Valid User formUser, Model model) {
+	public String deleteUserById(@PathVariable(value = "id") Long id, @Valid User formUser, Model model, HttpSession session) {
 		userService.deleteUser(formUser);
 		model.addAttribute("name", formUser.getName());
-		return "/users/withdrawal";
+		session.invalidate();
+		return "redirect:/";
 	}
 	
 	/*
