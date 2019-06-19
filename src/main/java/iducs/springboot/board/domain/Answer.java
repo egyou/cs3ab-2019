@@ -5,23 +5,16 @@ import java.time.LocalDateTime;
 public class Answer {
 	private long id; // primary key
 	private Question question;
-	public Question getQuestion() {
-		return question;
-	}
-	public void setQuestion(Question question) {
-		this.question = question;
-	}
-
 	private String title;
 	private User writer;	
 	private String contents;
 	private LocalDateTime createTime;	
 	
 	public Answer() {}
-	public Answer(String title, User writer, String contents) {
+	public Answer(User writer, Question question, String contents) {
 		super();
-		this.title = title;
 		this.writer = writer;
+		this.question = question;
 		this.contents = contents;
 		this.createTime = LocalDateTime.now();
 	}
@@ -65,5 +58,15 @@ public class Answer {
 	public void setCreateTime(LocalDateTime createTime) {
 		this.createTime = createTime;
 	}
-	
+	public Question getQuestion() {
+		return question;
+	}
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
+	public boolean isSameUser(User user, User writer) {
+		if(user.equals(writer))
+			return true; 
+		return false;
+	}
 }

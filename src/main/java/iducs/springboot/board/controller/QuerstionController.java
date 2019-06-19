@@ -56,6 +56,7 @@ public class QuerstionController {
 		User writer = question.getWriter();
 		if(sessionUser.equals(writer))
 			model.addAttribute("same", "same");
+		
 		model.addAttribute("question", question);
 		
 		
