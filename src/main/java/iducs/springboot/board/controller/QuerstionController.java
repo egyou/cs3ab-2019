@@ -86,7 +86,8 @@ public class QuerstionController {
 	   }
 	
 	@PutMapping("/{id}")
-	public String updateQuestionById(@Valid Question formQuestion, HttpSession session, @PathVariable(value = "id") Long id, String title, String contents, Model model) {
+	public String updateQuestionById(@Valid Question formQuestion, HttpSession session, 
+			@PathVariable(value = "id") Long id, String title, String contents, Model model) {
 		
 		User writer = (User) session.getAttribute("user");
 		if(HttpSessionUtils.isLogined(writer))
@@ -103,7 +104,8 @@ public class QuerstionController {
 		return "redirect:/questions/" + id;
 	}
 	@DeleteMapping("/{id}")
-	public String deleteQuestionById(HttpSession session, @PathVariable(value = "id") Long id, Model model) {
+	public String deleteQuestionById(HttpSession session, 
+			@PathVariable(value = "id") Long id, Model model) {
 		User writer = (User) session.getAttribute("user");
 		if(HttpSessionUtils.isLogined(writer))
 			return "redirect:/users/login-form";
