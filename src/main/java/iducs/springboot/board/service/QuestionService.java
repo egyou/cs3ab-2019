@@ -9,6 +9,7 @@ public interface QuestionService {
 	List<Question> getQuestions(); // 모든 질문  조회
 	
 	List<Question> getQuestionsByUser(String name); // name으로 조회
+	List<Question> getQuestionsByTitle(String title);
 	List<Question> getQuestionsByPage(int index, int size); // 페이지로 조회
 	
 	void saveQuestion(Question question); // 질문 생성

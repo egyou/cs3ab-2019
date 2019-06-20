@@ -37,7 +37,22 @@ public class QuerstionController {
 		List<Question> questions = questionService.getQuestions();
 		model.addAttribute("questions", questions);
 		return "/questions/list"; 
-	}	
+	}
+	
+	@GetMapping("/writer")
+	public String getAllUser1(Model model, HttpSession session,String writer) {
+		List<Question> questions = questionService.getQuestionsByUser(writer);
+		model.addAttribute("questions", questions);
+		return "/questions/list"; 
+	}
+	
+	@GetMapping("/title")
+	public String getAllUser2(Model model, HttpSession session,String title) {
+		List<Question> questions = questionService.getQuestionsByTitle(title);
+		model.addAttribute("questions", questions);
+		return "/questions/list"; 
+	}
+	
 	
 	@PostMapping("")
 	// public String createUser(Question question, Model model, HttpSession session) {

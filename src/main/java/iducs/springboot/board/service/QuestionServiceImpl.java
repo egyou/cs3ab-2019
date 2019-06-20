@@ -54,8 +54,26 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Override
 	public List<Question> getQuestionsByUser(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		List<QuestionEntity> entities = repository.findAll(new Sort(Sort.Direction.DESC, "writer.userId"));
+		
+		List<Question> questions = new ArrayList<Question>();
+		for(QuestionEntity entity : entities) {
+			Question question = entity.buildDomain();
+			questions.add(question);
+		}
+		return questions;
+	}
+	
+	@Override
+	public List<Question> getQuestionsByTitle(String title) {
+		List<QuestionEntity> entities = repository.findAll(new Sort(Sort.Direction.DESC, "title"));
+		
+		List<Question> questions = new ArrayList<Question>();
+		for(QuestionEntity entity : entities) {
+			Question question = entity.buildDomain();
+			questions.add(question);
+		}
+		return questions;
 	}
 
 	@Override

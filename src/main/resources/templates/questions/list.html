@@ -35,13 +35,7 @@
                     	
                         <article class="blog_item" th:each="question : ${questions}">
                             <div class="blog_item_img">    
-                            <!--                           
-                                <a href="#" class="blog_item_date">
-                                
-                                    <p th:text="${#temporals.format(question.createTime, 'YY-MM-dd')} + ${question.title}"></p>
-
-                                </a>
-                            -->
+                            
                             </div>								
                             <div class="blog_details">
                             	<a class="d-inline-block" th:href="@{'/questions/{id}'(id=${question.id})}"></span>
@@ -80,20 +74,11 @@
                 <div class="col-lg-4">
                     <div class="blog_right_sidebar">
                         <aside class="single_sidebar_widget search_widget">
-                            <form action="#">
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder='Search Keyword'
-                                            onfocus="this.placeholder = ''"
-                                            onblur="this.placeholder = 'Search Keyword'">
-                                        <div class="input-group-append">
-                                            <button class="btn" type="button"><i class="ti-search"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="button rounded-0 primary-bg text-white w-100 btn_4"
-                                    type="submit">Search</button>
-                            </form>
+                                <a href="/questions/title"><button class="button rounded-0 primary-bg text-white w-100 btn_4"
+                                >제목순</button></a>
+                                <br></br>
+                                <a href="/questions/writer"><button class="button rounded-0 primary-bg text-white w-100 btn_4"
+                                >작성자순</button></a>
                         </aside>
 
                         <aside class="single_sidebar_widget post_category_widget">
@@ -102,14 +87,11 @@
                                 <li>
                                     <a href="/questions/form" class="d-flex">
                                         <p>글쓰기</p>
+                                  <a href="/questions/writer" class="d-flex">
+                                        <p>제목순</p>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Health Care (21)</p>
-                                        <p>09</p>
-                                    </a>
-                                </li>
+
                             </ul>
                         </aside>
 

@@ -28,7 +28,7 @@ public class AnswerController {
 	@Autowired AnswerService answerService; // 의존성 주입(Dependency Injection) 
 	@Autowired QuestionService questionService;
 		
-	@GetMapping("")
+	@PostMapping("")
 	// public String createUser(Answer answer, Model model, HttpSession session) {
 	public String createAnswer(@PathVariable Long questionId, String contents,HttpSession session) {
 		User sessionUser = (User) session.getAttribute("user");

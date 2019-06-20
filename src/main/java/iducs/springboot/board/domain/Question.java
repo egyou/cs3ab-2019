@@ -6,7 +6,7 @@ import java.util.List;
 public class Question {
 	private long id; // primary key
 	private String title; 
-	private User writer;
+	private User writer;	
 	private List<Answer> answers;
 	private String contents;
 	private LocalDateTime createTime;	
@@ -20,12 +20,6 @@ public class Question {
 		this.createTime = LocalDateTime.now();
 	}
 
-	public List<Answer> getAnswer() {
-		return answers;
-	}
-	public void setAnswer(List<Answer> answer) {
-		this.answers = answer;
-	}
 	public long getId() {
 		return id;
 	}
@@ -49,7 +43,14 @@ public class Question {
 	public void setWriter(User writer) {
 		this.writer = writer;
 	}
-
+		
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
+	
 	public String getContents() {
 		return contents;
 	}
@@ -64,10 +65,6 @@ public class Question {
 
 	public void setCreateTime(LocalDateTime createTime) {
 		this.createTime = createTime;
-	}
-	public void setAnswers(List<Answer> answerList) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 }
