@@ -76,7 +76,6 @@ public class QuestionServiceImpl implements QuestionService {
 		QuestionEntity entity = new QuestionEntity();
 		entity.buildEntity(question);
 		repository.delete(entity);
-		
 	}
 
 	
